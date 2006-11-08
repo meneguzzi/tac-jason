@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     06-Mar-2006 14:23:54                                                        
+
+     tac-jason    
+     A TAC Agent implementation that interfaces with Jason
+                   
+     frm05r                                                                
+     ====================================================================== -->
+<project name="tac-jason" default="default">
+    <description>
+            A TAC Agent implementation that interfaces with
+    </description>
+
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" depends="depends" description="--> A TAC Agent implementation that interfaces with Jason">
+        
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="depends">
+    </target>
+	
+	
+    <!-- ================================= 
+          target: clean-logs              
+         ================================= -->
+    <target name="clean-logs" depends="depends" description="--> Cleans all log files">
+        <delete>
+        	<fileset dir="." id="logs">
+		    	<include name="aw?.log*"/>
+		    	<!-- <exclude name="exclude"/> -->
+			</fileset>
+        	<and>
+    			<fileset dir="games">
+				</fileset>
+    		</and>
+    	</delete>
+    </target>
+
+
+
+</project>
+

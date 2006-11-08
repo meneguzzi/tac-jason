@@ -1,0 +1,17 @@
+Orpheus is an implementation of a TAC client agent that uses Jason 
+as a reasoning backend. Jason is an interpreter for an extended 
+version of AgentSpeak, as well as classes from the demo agent from
+official SICS TAC AgentWare Beta 8 (released 2005-06-07). These 
+are included in the lib folder.
+
+Jason was created by Rafael H. Bordini, Jomi F. Hubner, et al.
+http://jason.sourceforge.net
+
+SICS TAC Classic AgentWare
+http://www.sics.se/tac/page.php?id=12
+
+First release: March 2006.
+Jason is distributed under LGPL (see file LICENSE).
+
+Java 1.5 is required to run this application, it is available
+at http://java.sun.com.
