@@ -1,9 +1,11 @@
 package org.soton.orpheus.jason.monitor;
 
 import jason.asSemantics.Agent;
+import jason.asSyntax.Literal;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.Iterator;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -62,14 +64,23 @@ public class JasonMonitor extends JPanel {
 		protected final static int POLLING_INTERVAL = 500;
 		protected boolean running = false;
 		
+		protected Literal beliefs[] = new Literal[1];
+		
 		public void run() {
 			synchronized (this) {
 				running = true;
 			}
 			
 			while (running) {
-				jBeliefsList.setListData(agent.getBS().getAllBeliefs().toArray());
-				jPlansList.setListData(agent.getPS().getPlans().toArray());
+				if(agent.getBB().size() != beliefs.length) {
+					beliefs = new Literal[agent.getBB().size()];
+				}
+				int j = 0;
+				for(Iterator<Literal> i = agent.getBB().getAll(); i.hasNext(); ){
+					beliefs[j++] = i.next();
+				}
+				jBeliefsList.setListData(beliefs);
+				jPlansList.setListData(agent.getPL().getPlans().toArray());
 				jIntentionsList.setListData(agent.getTS().getC().getIntentions().toArray());
 				try {
 					sleep(POLLING_INTERVAL);

@@ -6,17 +6,19 @@ package org.soton.orpheus.jason;
 import jason.JasonException;
 import jason.architecture.AgArch;
 import jason.asSemantics.ActionExec;
-import jason.asSemantics.Intention;
+import jason.asSemantics.Agent;
 import jason.asSemantics.Message;
-import jason.asSyntax.BeliefBase;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Term;
+import jason.bb.DefaultBeliefBase;
+import jason.mas2j.ClassParameters;
 import jason.runtime.Settings;
 
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.soton.orpheus.jason.act.OrpheusActionExecutive;
@@ -42,14 +44,16 @@ public class OrpheusAgentArch extends AgArch implements Runnable {
 	public OrpheusAgentArch(String asSource) throws JasonException {
 		super();
 		this.actionExecutive = new OrpheusActionExecutiveImpl();
-		this.initAg("jason.asSemantics.Agent", asSource, new Settings());
-	}
-	
-	@Override
-	public void initAg(String agClass, String asSrc, Settings stts) throws JasonException {
-		super.initAg(agClass, asSrc, stts);
+//		 set up the Jason agent
+        try {
+        	Settings settings = new Settings();
+        	ClassParameters bbPars = new ClassParameters();
+        	bbPars.className = DefaultBeliefBase.class.getCanonicalName();
+            this.initAg(Agent.class.getCanonicalName(), bbPars, asSource, settings);
+        } catch (JasonException e) {
+            logger.log(Level.SEVERE, "Init error", e);
+        }
 		try {
-			//this.setArchInfraTier(this);
 			TACProxyAgentFactory proxyAgentFactory = TACProxyAgentFactory.getTACProxyAgentFactory();
 			URL config = OrpheusAgentArch.class.getResource("/agent.conf");
 			proxyAgent = proxyAgentFactory.createTACProxyAgent(this, config);
@@ -57,11 +61,11 @@ public class OrpheusAgentArch extends AgArch implements Runnable {
 			throw new JasonException(e.getMessage());
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see jason.architecture.AgArchInterface#perceive()
 	 */
-	public List perceive() {
+	public List<Literal> perceive() {
 		//TODO Modify this method to cope with events from TAC
 		//return super.perceive();
 		//proxyAgent.
@@ -160,7 +164,7 @@ public class OrpheusAgentArch extends AgArch implements Runnable {
 	 * @param belief The belief to be added.
 	 */
 	public void addBelief(Literal belief) {
-		getTS().getAg().addBel(belief, BeliefBase.TSelf, getTS().getC(), Intention.EmptyInt);
+		getTS().getAg().addBel(belief);
 	}
 	
 	/*
@@ -173,7 +177,7 @@ public class OrpheusAgentArch extends AgArch implements Runnable {
 		}
 		while (isRunning()) {
 			logger.fine("Reasoning...");
-			fTS.reasoningCycle();
+			getTS().reasoningCycle();
 		}
 	}
 	
