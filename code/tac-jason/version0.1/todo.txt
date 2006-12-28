@@ -1,0 +1,19 @@
+AgentSpeak Actions
+------------------
+* The current way in which the AS actions are implemented is not theoretically 
+  sound in the sense that AS actions should not be allowed to use unification
+  to return values. These specific actions (getAuctionCategory, getAuctionDay,
+  getAuctionFor, and getAuctionType) should be modified to be internal actions
+  or otherwise be reimplemented to cause the agent's perception to get the 
+  result.
+
+* The current plans for the agent (in tac-agent.asl) is not catering for all of
+  the requirements of a TAC agent (e.g. it does not try to get entertainment
+  for customers), improved plans are currently being developed.
+
+* This implementation relies heavily on the AgentWare release by SICS for 
+  communication and general book keeping, and in the future should be changed
+  for a more elegant model of communication.
+
+* JUnit tests are not complete, and should be completed for a thorough 
+  validation of the implementation.
